@@ -7,6 +7,7 @@ const instance = axios.create({
 
 const employees = ref([])
 const loading = ref(false)
+const currentEmployee = ref(null)
 
 export default function useAPI() {
   const getEmployees = async () => {
@@ -15,8 +16,14 @@ export default function useAPI() {
       const response = await instance.get('api/employees/fetch')
       employees.value = response.data
     }
+
     loading.value = false
   }
+
+  const fetchEmployee = async (id) => {
+  const response = await instance.get(`api/employees/fetch/${id}`)
+  currentEmployee.value = response.data
+}
 
   return { instance, employees, getEmployees, loading }
 }
